@@ -19,7 +19,7 @@ export class UserService {
     throw new NotFoundException('User not found');
   }
 
-  addUser(user: IUser): IUser {
+  async addUser(user: IUser): Promise<IUser> {
     this.users.push(user);
     return user;
   }

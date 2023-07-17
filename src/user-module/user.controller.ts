@@ -3,8 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   Param,
   Post,
+  Redirect,
+  Req,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,7 +25,9 @@ export class UserController {
   }
 
   @Get('/:email')
-  getUser(@Param() params: UserParamDto): IUser {
+  @Redirect('')
+  @Header('Cache-Control', 'nono')
+  getUser(@Param() params: UserParamDto, @Req() req: Request): IUser {
     return this.userService.getUser(params.email);
   }
 
@@ -32,8 +37,8 @@ export class UserController {
       transform: true,
     }),
   )
-  postUser(@Body() user: UserDto): IUser {
-    return this.userService.addUser(user);
+  async postUser(@Body() user: UserDto): Promise<IUser> {
+    return await this.userService.addUser(user);
   }
 
   @Delete('/:email')
