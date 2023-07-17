@@ -27,7 +27,11 @@ export class UserController {
   }
 
   @Post()
-  @UsePipes(new ValidationPipe())
+  @UsePipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  )
   postUser(@Body() user: UserDto): IUser {
     return this.userService.addUser(user);
   }
