@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -8,12 +9,14 @@ import {
   Post,
   Redirect,
   Req,
+  UseFilters,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { IUser } from './interfaces/user';
 import { UserDto, UserParamDto } from './dto/user.dto';
+import { HttpExceptionFilter } from './filter';
 
 @Controller('users')
 export class UserController {
@@ -25,10 +28,13 @@ export class UserController {
   }
 
   @Get('/:email')
-  @Redirect('')
-  @Header('Cache-Control', 'nono')
-  getUser(@Param() params: UserParamDto, @Req() req: Request): IUser {
-    return this.userService.getUser(params.email);
+  @UseFilters(new HttpExceptionFilter())
+  async getUser(@Param() params: UserParamDto): Promise<IUser> {
+    try {
+      return await this.userService.getUser(params.email);
+    } catch (error) {
+      throw new BadRequestException('test');
+    }
   }
 
   @Post()
