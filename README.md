@@ -74,3 +74,6 @@ Nest is [MIT licensed](LICENSE).
 
 ## Run project with nodemon
   npm run debug
+
+## Validation package
+  npm i --save @hapi/joi
