@@ -15,7 +15,7 @@ import {
 import { TaskService } from './task.service';
 import { ITask } from './interface/task';
 import { Response } from 'express';
-import { QueryParamdto, TaskDto, TaskParamDto } from './dto/task.dto';
+import { QueryParamDto, TaskDto, TaskParamDto } from './dto/task.dto';
 
 @Controller('tasks')
 export class TaskController {
@@ -29,13 +29,13 @@ export class TaskController {
   }
 
   @Get('/filter')
-  @UsePipes(new ValidationPipe())
+  @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
   async filterTaskById(
-    @Query('filter') filter: ParseBoolPipe,
+    @Query() queryParamDto: QueryParamDto,
     @Res() res: Response,
   ) {
     try {
-      const data = await this.taskService.filterTask(filter);
+      const data = await this.taskService.filterTask(queryParamDto.filter);
       return res.status(200).send(data);
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -55,9 +55,8 @@ export class TaskController {
 
   @Delete(':id')
   @UsePipes(new ValidationPipe())
-  async deleteTaskById(@Param() param: TaskParamDto, @Res() res: Response) {
-    const data = await this.taskService.deleteTask(param.id);
-    return res.status(200).send(data);
+  async deleteTaskById(@Param() param: TaskParamDto) {
+    return await this.taskService.deleteTask(param.id);
   }
 
   @Get('')

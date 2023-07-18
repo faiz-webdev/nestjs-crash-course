@@ -1,7 +1,10 @@
+import { Optional } from '@nestjs/common';
+import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsDefined,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
@@ -25,8 +28,16 @@ export class TaskParamDto {
   id: string;
 }
 
-export class QueryParamdto {
+export class QueryParamDto {
   @IsDefined()
   @IsBoolean()
-  filter: string;
+  @Transform(({ value }) => {
+    return value == 'true' ? true : false;
+  })
+  filter: boolean;
+
+  @IsOptional()
+  @IsString()
+  @IsDefined()
+  name: string;
 }
