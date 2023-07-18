@@ -1,6 +1,8 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Post, Res } from '@nestjs/common';
 import { TaskService } from './task.service';
 import { ITask } from './interface/task';
+import { Response } from 'express';
+import { IUser } from '../user-module/interfaces/user';
 
 @Controller()
 export class TaskController {
@@ -17,7 +19,9 @@ export class TaskController {
   }
 
   @Get('/')
-  async getAllTasks(): Promise<ITask[]> {
-    return await this.taskService.getAllTask();
+  async getAllTasks(@Res() res: Response) {
+    const data = this.taskService.getAllTask();
+    // return await this.taskService.getAllTask();
+    return res.status(200).send(data);
   }
 }
