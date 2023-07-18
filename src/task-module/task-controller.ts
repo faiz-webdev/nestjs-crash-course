@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  InternalServerErrorException,
   Param,
   Post,
   Res,
@@ -28,8 +29,12 @@ export class TaskController {
   @Get('/:id')
   @UsePipes(new ValidationPipe())
   async getTaskById(@Param() param: TaskParamDto, @Res() res: Response) {
-    const data = await this.taskService.getTask(param.id);
-    return res.status(200).send(data);
+    try {
+      const data = await this.taskService.getTask(param.id);
+      return res.status(200).send(data);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   @Delete(':id')
