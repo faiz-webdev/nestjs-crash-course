@@ -27,4 +27,8 @@ export class TaskService {
   public async deleteTask(id: string): Promise<ITask[]> {
     return await this.taskStoreService.deleteTask(id);
   }
+
+  public async filterTask(filter): Promise<ITask[]> {
+    return await this.taskStoreService.filterTask(filter);
+  }
 }

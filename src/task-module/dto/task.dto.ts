@@ -1,4 +1,10 @@
-import { IsDefined, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsDefined,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class TaskDto {
   @IsDefined()
@@ -17,4 +23,10 @@ export class TaskParamDto {
   @IsUUID()
   @IsDefined()
   id: string;
+}
+
+export class QueryParamdto {
+  @IsDefined()
+  @IsBoolean()
+  filter: string;
 }

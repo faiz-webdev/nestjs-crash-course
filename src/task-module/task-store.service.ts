@@ -27,4 +27,11 @@ export class TaskStoreService {
     this.tasks = newTask;
     return Promise.resolve(this.tasks);
   }
+
+  public async filterTask(filter): Promise<ITask[]> {
+    if (!filter) {
+      return Promise.resolve(this.tasks);
+    }
+    return Promise.resolve(this.tasks.filter((i) => i.completed === filter));
+  }
 }

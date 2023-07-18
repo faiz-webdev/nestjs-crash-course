@@ -5,7 +5,9 @@ import {
   Get,
   InternalServerErrorException,
   Param,
+  ParseBoolPipe,
   Post,
+  Query,
   Res,
   UsePipes,
   ValidationPipe,
@@ -13,7 +15,7 @@ import {
 import { TaskService } from './task.service';
 import { ITask } from './interface/task';
 import { Response } from 'express';
-import { TaskDto, TaskParamDto } from './dto/task.dto';
+import { QueryParamdto, TaskDto, TaskParamDto } from './dto/task.dto';
 
 @Controller('tasks')
 export class TaskController {
@@ -24,6 +26,20 @@ export class TaskController {
   async addTask(@Body() task: TaskDto, @Res() res: Response) {
     const data = await this.taskService.addTask(task);
     return res.status(200).send(data);
+  }
+
+  @Get('/filter')
+  @UsePipes(new ValidationPipe())
+  async filterTaskById(
+    @Query('filter') filter: ParseBoolPipe,
+    @Res() res: Response,
+  ) {
+    try {
+      const data = await this.taskService.filterTask(filter);
+      return res.status(200).send(data);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
   @Get('/:id')
