@@ -11,6 +11,7 @@ import {
   Req,
   UseFilters,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -22,14 +23,17 @@ import { JoiValidationPipe } from './pipe';
 import { createCatSchema } from './schema';
 import { ClassValidator } from './pipe/class-validator';
 import { AuthGuard } from './guard';
+import { LoggingInterceptor } from './interceptor';
 
 @Controller('users')
 // @UseGuards(AuthGuard)
+// @UseInterceptors(LoggingInterceptor)
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
   @UseGuards(new AuthGuard())
+  @UseInterceptors(new LoggingInterceptor())
   getUsers(): IUser[] {
     return this.userService.getUsers();
   }
