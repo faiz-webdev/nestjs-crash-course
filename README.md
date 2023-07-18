@@ -80,3 +80,10 @@ Nest is [MIT licensed](LICENSE).
 
 ## UUID package
   npm install uuid
+
+## Swagger package
+  npm i @nestjs/swagger
+  npm i swagger-ui-express
+
+## Swagger ui url
+  http://localhost:3000/api
