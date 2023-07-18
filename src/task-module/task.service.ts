@@ -23,4 +23,8 @@ export class TaskService {
   public async getAllTask(): Promise<ITask[]> {
     return await this.taskStoreService.getAllTask();
   }
+
+  public async deleteTask(id: string): Promise<ITask[]> {
+    return await this.taskStoreService.deleteTask(id);
+  }
 }

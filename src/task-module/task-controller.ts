@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Res,
   UsePipes,
@@ -10,7 +12,7 @@ import {
 import { TaskService } from './task.service';
 import { ITask } from './interface/task';
 import { Response } from 'express';
-import { TaskDto } from './dto/task.dto';
+import { TaskDto, TaskParamDto } from './dto/task.dto';
 
 @Controller('tasks')
 export class TaskController {
@@ -24,13 +26,22 @@ export class TaskController {
   }
 
   @Get('/:id')
-  async getTask(id: string): Promise<ITask> {
-    return await this.taskService.getTask(id);
+  @UsePipes(new ValidationPipe())
+  async getTaskById(@Param() param: TaskParamDto, @Res() res: Response) {
+    const data = await this.taskService.getTask(param.id);
+    return res.status(200).send(data);
+  }
+
+  @Delete(':id')
+  @UsePipes(new ValidationPipe())
+  async deleteTaskById(@Param() param: TaskParamDto, @Res() res: Response) {
+    const data = await this.taskService.deleteTask(param.id);
+    return res.status(200).send(data);
   }
 
   @Get('')
   async getAllTasks(@Res() res: Response) {
-    const data = this.taskService.getAllTask();
+    const data = await this.taskService.getAllTask();
     // return await this.taskService.getAllTask();
     return res.status(200).send(data);
   }

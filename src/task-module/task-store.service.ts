@@ -12,10 +12,16 @@ export class TaskStoreService {
 
   public async getTask(id: string): Promise<ITask> {
     const task = this.tasks.filter((i) => i.uuid === id);
-    return task[0];
+    return Promise.resolve(task[0]);
   }
 
   public async getAllTask(): Promise<ITask[]> {
+    return Promise.resolve(this.tasks);
+  }
+
+  public async deleteTask(id: string): Promise<ITask[]> {
+    const newTask = this.tasks.filter((i) => i.uuid !== id);
+    this.tasks = newTask;
     return Promise.resolve(this.tasks);
   }
 }
