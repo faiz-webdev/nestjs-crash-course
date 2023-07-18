@@ -28,7 +28,6 @@ export class UserController {
   }
 
   @Get('/:email')
-  @UseFilters(new HttpExceptionFilter())
   async getUser(@Param() params: UserParamDto): Promise<IUser> {
     try {
       return await this.userService.getUser(params.email);
