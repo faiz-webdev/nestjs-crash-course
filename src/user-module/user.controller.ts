@@ -19,6 +19,7 @@ import { UserDto, UserParamDto } from './dto/user.dto';
 import { HttpExceptionFilter } from './filter';
 import { JoiValidationPipe } from './pipe';
 import { createCatSchema } from './schema';
+import { ClassValidator } from './pipe/class-validator';
 
 @Controller('users')
 export class UserController {
@@ -43,6 +44,13 @@ export class UserController {
   @UsePipes(new JoiValidationPipe(createCatSchema))
   async postUser(@Body() user: IUser): Promise<IUser> {
     return await this.userService.addUser(user);
+  }
+
+  @Post('/create')
+  async createUser(
+    @Body(new ClassValidator()) userDto: UserDto,
+  ): Promise<IUser> {
+    return await this.userService.addUser(userDto);
   }
 
   @Delete('/:email')
