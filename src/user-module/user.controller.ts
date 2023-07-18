@@ -10,6 +10,7 @@ import {
   Redirect,
   Req,
   UseFilters,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -20,12 +21,15 @@ import { HttpExceptionFilter } from './filter';
 import { JoiValidationPipe } from './pipe';
 import { createCatSchema } from './schema';
 import { ClassValidator } from './pipe/class-validator';
+import { AuthGuard } from './guard';
 
 @Controller('users')
+// @UseGuards(AuthGuard)
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Get()
+  @UseGuards(new AuthGuard())
   getUsers(): IUser[] {
     return this.userService.getUsers();
   }
