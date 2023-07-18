@@ -7,15 +7,15 @@ export class TaskStoreService {
 
   public async addTask(task: ITask): Promise<ITask> {
     this.tasks.push(task);
-    return task;
+    return Promise.resolve(task);
   }
 
   public async getTask(id: string): Promise<ITask> {
-    const task = this.tasks.filter((i) => i.id === id);
+    const task = this.tasks.filter((i) => i.uuid === id);
     return task[0];
   }
 
   public async getAllTask(): Promise<ITask[]> {
-    return this.tasks;
+    return Promise.resolve(this.tasks);
   }
 }

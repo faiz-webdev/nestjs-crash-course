@@ -1,8 +1,8 @@
 export interface ITask {
-  id: string;
+  uuid?: string;
   name: string;
-  completed: boolean;
-  description: string;
-  ownder: string;
-  duration: number;
+  completed?: boolean;
+  description?: string;
+  ownder?: string;
+  duration?: number;
 }

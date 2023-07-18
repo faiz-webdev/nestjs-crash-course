@@ -1,16 +1,26 @@
-import { Controller, Get, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Res,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { TaskService } from './task.service';
 import { ITask } from './interface/task';
 import { Response } from 'express';
-import { IUser } from '../user-module/interfaces/user';
+import { TaskDto } from './dto/task.dto';
 
-@Controller()
+@Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
-  @Post('/')
-  async addTask(task: ITask): Promise<ITask> {
-    return await this.taskService.addTask(task);
+  @Post()
+  @UsePipes(new ValidationPipe())
+  async addTask(@Body() task: TaskDto, @Res() res: Response) {
+    const data = await this.taskService.addTask(task);
+    return res.status(200).send(data);
   }
 
   @Get('/:id')
@@ -18,7 +28,7 @@ export class TaskController {
     return await this.taskService.getTask(id);
   }
 
-  @Get('/')
+  @Get('')
   async getAllTasks(@Res() res: Response) {
     const data = this.taskService.getAllTask();
     // return await this.taskService.getAllTask();

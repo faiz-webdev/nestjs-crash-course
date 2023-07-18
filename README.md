@@ -77,3 +77,6 @@ Nest is [MIT licensed](LICENSE).
 
 ## Validation package
   npm i --save @hapi/joi
+
+## UUID package
+  npm install uuid
