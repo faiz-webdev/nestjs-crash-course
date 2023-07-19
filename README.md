@@ -90,3 +90,6 @@ Nest is [MIT licensed](LICENSE).
 
 ## MongoDB package
   npm i @nestjs/mongoose mongoose
+
+## Mysql package
+  npm install --save @nestjs/typeorm typeorm mysql2
