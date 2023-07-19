@@ -21,15 +21,15 @@ export class CustomerService {
 
   public async getCustomer(id: string): Promise<Customer> {
     const customer = await this.customerModel.findById(id);
+    if (!customer) {
+      throw new NotFoundException('customer not found');
+    }
     return customer;
-    // if (!customer) {
-    //   throw new NotFoundException('customer not found');
-    // }
-    // return customer;
   }
 
   public async createCustomer(customer: CreateCustomerDTO): Promise<Customer> {
-    const newCustomer = await this.customerModel(customer);
+    // const newCustomer = await this.customerModel.create(customer);
+    const newCustomer = await new this.customerModel(customer);
     return newCustomer.save();
   }
 
