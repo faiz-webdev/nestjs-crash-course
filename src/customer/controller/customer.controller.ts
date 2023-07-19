@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { CustomerService } from '../services/customer.service';
 import { Response } from 'express';
-import { CreateCustomerDTO } from '../dto/customer.dto';
+import { CreateCustomerDTO, CustomerParamDTO } from '../dto/customer.dto';
 
 // REQUEST VLIDATION
 
@@ -32,9 +32,10 @@ export class CustomerController {
   }
 
   @Get('/:customerId')
-  async getCustomerById(@Res() res: Response, @Param('id') id: string) {
-    const data = await this.service.getCustomer(id);
-    res.status(HttpStatus.OK).json(data);
+  async getCustomerById(@Param() param: CustomerParamDTO) {
+    const data = await this.service.getCustomer(param.customerId);
+    return data;
+    // res.status(HttpStatus.OK).json(data);
   }
 
   @Post()
