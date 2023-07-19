@@ -93,3 +93,6 @@ Nest is [MIT licensed](LICENSE).
 
 ## Mysql package
   npm install --save @nestjs/typeorm typeorm mysql2
+
+## Migration command
+  npm run db:sync

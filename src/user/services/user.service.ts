@@ -26,9 +26,12 @@ export class UserService {
 
   public async createUser(createUserDTO: CreateUserDTO): Promise<User> {
     try {
-      const { email } = createUserDTO;
+      const { firstName, lastName, email, course } = createUserDTO;
       const user = new User();
       user.email = email;
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.course = course;
 
       return await this.userRepo.save(user);
     } catch (error) {
