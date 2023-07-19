@@ -87,3 +87,6 @@ Nest is [MIT licensed](LICENSE).
 
 ## Swagger ui url
   http://localhost:3000/api
+
+## MongoDB package
+  npm i @nestjs/mongoose mongoose
